@@ -1,46 +1,51 @@
 #include "shell.h"
-
+/**
+ * main - interprets command line
+ * Return: always 0
+ */
 #define MAX_COMMAND_LENGTH 100
-
-int main()
+int main(void)
 {
-    char command[MAX_COMMAND_LENGTH];
-    char prompt[] = "simple_shell> ";
+	char command[MAX_COMMAND_LENGTH];
+	char prompt[] = "simple_shell> ";
 
-    while (1) {
-        printf("%s", prompt);
+	while (1)
+	{
+		printf("%s", prompt);
+		if (fgets(command, sizeof(command), stdin) == NULL)
+		{
+			printf("\n");
+			break;
+		}
+		// Remove the newline character at the end of the command
+		command[strcspn(command, "\n")] = '\0';
+		// Fork a child process
+		pid_t pid = fork();
 
-        if (fgets(command, sizeof(command), stdin) == NULL) {
-            printf("\n");
-            break;
-        }
+		if (pid < 0)
+		{
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
+		else if (pid == 0)
+		{
+			// Child process
 
-        // Remove the newline character at the end of the command
-        command[strcspn(command, "\n")] = '\0';
+			// Execute the command
+			if (execlp(command, command, NULL) == -1)
+			{
+				perror("execlp");
+				exit(EXIT_FAILURE);
+			}
+		}
+		else
+		{
+			// Parent process
+			// Wait for the child process to finish
+			int status;
+			waitpid(pid, &status, 0);
+		}
+	}
 
-        // Fork a child process
-        pid_t pid = fork();
-
-        if (pid < 0) {
-            perror("fork");
-            exit(EXIT_FAILURE);
-        } else if (pid == 0) {
-            // Child process
-
-            // Execute the command
-            if (execlp(command, command, NULL) == -1) {
-                perror("execlp");
-                exit(EXIT_FAILURE);
-            }
-        } else {
-            // Parent process
-
-            // Wait for the child process to finish
-            int status;
-            waitpid(pid, &status, 0);
-        }
-    }
-
-    return 0;
+	return (0);
 }
-

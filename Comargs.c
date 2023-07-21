@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+#include "shell.h"
 
 #define MAX_COMMAND_LENGTH 100
 #define MAX_ARGUMENTS 10
@@ -23,12 +20,13 @@ int main() {
 
         // Tokenize the command into arguments
         char* arguments[MAX_ARGUMENTS];
-        char* token = strtok(command, " ");
+	char delim[] = " \n";
+        char* token = strtok(command, delim);
         int argCount = 0;
 
         while (token != NULL && argCount < MAX_ARGUMENTS - 1) {
             arguments[argCount++] = token;
-            token = strtok(NULL, " ");
+            token = strtok(NULL, delim);
         }
 
         arguments[argCount] = NULL;
