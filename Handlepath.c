@@ -1,22 +1,24 @@
 #include "shell.h"
-#define MAX_COMMAND_LENGTH 100
 #define MAX_ARGUMENTS 10
+#define MAX_COMMAND_LENGTH 100
 /**
  * main - handles path
  * Return: 0 always
  */
 int main(void)
 {
-	char command[MAX_COMMAND_LENGTH];
+	char *command = NULL;
+	size_t command_size = 0;
 	char prompt[] = "simple_shell> ";
 
 	while (1)
 	{
 		printf("%s", prompt);
 
-		if (fgets(command, sizeof(command), stdin) == NULL)
+		if (getline(&command, &command_size, stdin) == -1)
 		{
 			printf("\n");
+			free(command);
 			break;
 		}
 
