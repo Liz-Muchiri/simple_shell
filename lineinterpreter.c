@@ -8,6 +8,7 @@ int main(void)
 {
 	char command[MAX_COMMAND_LENGTH];
 	char prompt[] = "simple_shell> ";
+	int status;
 
 	while (1)
 	{
@@ -17,9 +18,7 @@ int main(void)
 			printf("\n");
 			break;
 		}
-		// Remove the newline character at the end of the command
 		command[strcspn(command, "\n")] = '\0';
-		// Fork a child process
 		pid_t pid = fork();
 
 		if (pid < 0)
@@ -29,9 +28,6 @@ int main(void)
 		}
 		else if (pid == 0)
 		{
-			// Child process
-
-			// Execute the command
 			if (execlp(command, command, NULL) == -1)
 			{
 				perror("execlp");
@@ -40,9 +36,6 @@ int main(void)
 		}
 		else
 		{
-			// Parent process
-			// Wait for the child process to finish
-			int status;
 			waitpid(pid, &status, 0);
 		}
 	}
