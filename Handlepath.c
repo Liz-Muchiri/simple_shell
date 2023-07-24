@@ -1,73 +1,77 @@
 #include "shell.h"
 #define MAX_COMMAND_LENGTH 100
 #define MAX_ARGUMENTS 10
+/**
+ * main - handles path
+ * Return: 0 always
+ */
+int main(void)
+{
+	char command[MAX_COMMAND_LENGTH];
+	char prompt[] = "simple_shell> ";
 
-int main() {
-    char command[MAX_COMMAND_LENGTH];
-    char prompt[] = "simple_shell> ";
+	while (1)
+	{
+		printf("%s", prompt);
 
-    while (1) {
-        printf("%s", prompt);
+		if (fgets(command, sizeof(command), stdin) == NULL)
+		{
+			printf("\n");
+			break;
+		}
 
-        if (fgets(command, sizeof(command), stdin) == NULL) {
-            printf("\n");
-            break;
-        }
+		command[strcspn(command, "\n")] = '\0';
+		char *arguments[MAX_ARGUMENTS];
+		char delim[] = " \n";
+		char *token = strtok(command, delim);
+		int argCount = 0;
 
-        // Remove the newline character at the end of the command
-        command[strcspn(command, "\n")] = '\0';
+		while (token != NULL && argCount < MAX_ARGUMENTS - 1)
+		{
+			arguments[argCount++] = token;
+			token = strtok(NULL, delim);
+		}
 
-        // Tokenize the command into arguments
-        char* arguments[MAX_ARGUMENTS];
-	char delim[] = " \n";
-        char* token = strtok(command, delim);
-        int argCount = 0;
+		arguments[argCount] = NULL;
+		char *path = getenv("PATH");
+		char *pathToken = strtok(path, ":");
 
-        while (token != NULL && argCount < MAX_ARGUMENTS - 1) {
-            arguments[argCount++] = token;
-            token = strtok(NULL, delim);
-        }
+		while (pathToken != NULL)
+		{
+			char commandPath[MAX_COMMAND_LENGTH];
 
-        arguments[argCount] = NULL;
+			snprintf(commandPath, sizeof(commandPath), "%s/%s",
+					pathToken, arguments[0]);
 
-        // Check if the command exists in the PATH
-        char* path = getenv("PATH");
-        char* pathToken = strtok(path, ":");
+			if (access(commandPath, X_OK) == 0)
+			{
+				pid_t pid = fork();
 
-        while (pathToken != NULL) {
-            char commandPath[MAX_COMMAND_LENGTH];
-            snprintf(commandPath, sizeof(commandPath), "%s/%s", pathToken, arguments[0]);
+				if (pid < 0)
+				{
+					perror("fork");
+					exit(EXIT_FAILURE);
+				}
+				else if (pid == 0)
+				{
+					if (execv(commandPath, arguments) == -1)
+					{
+						perror("execv");
+						exit(EXIT_FAILURE);
+					}
+				}
+				else
+				{
+					int status;
 
-            if (access(commandPath, X_OK) == 0) {
-                // Command exists, fork a child process
-                pid_t pid = fork();
+					waitpid(pid, &status, 0);
+				}
 
-                if (pid < 0) {
-                    perror("fork");
-                    exit(EXIT_FAILURE);
-                } else if (pid == 0) {
-                    // Child process
+				break;
+			}
 
-                    // Execute the command
-                    if (execv(commandPath, arguments) == -1) {
-                        perror("execv");
-                        exit(EXIT_FAILURE);
-                    }
-                } else {
-                    // Parent process
-
-                    // Wait for the child process to finish
-                    int status;
-                    waitpid(pid, &status, 0);
-                }
-
-                break;
-            }
-
-            pathToken = strtok(NULL, ":");
-        }
-    }
-
-    return 0;
+			pathToken = strtok(NULL, ":");
+		}
+	}
+	return (0);
 }
-
