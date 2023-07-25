@@ -1,88 +1,37 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-int add(int a, int b);
-int subtract(int a, int b);
-int multiply(int a, int b);
-int divide(int a, int b);
-void printResult(int result);
+#include <unistd.h>
+#include <time.h>
 /**
- * main - performs mathematical operations
+ * acctgen - generates account numbers based on bank code
+ * Return: 0 always
  */
-int main(void)
+int acctgen(void)
 {
-	int a, b, sum, difference, product, quotient;
+	char bank[100];
+	int code;
+	int acct_num[7], count = 0;
 
-	printf("enter the values of a and b:");
-	scanf("%d %d\n", &a, &b);
-	if (a || b < 0)
+	printf("Enter bank name and 3 digit code:\n");
+	scanf("%s %d", bank, &code);
+	srand(time(NULL));
+	while (count < 6)
 	{
-		printf("invalid input");
-		return (-1);
+		acct_num[count] = rand();
+		count++;
 	}
-	sum = add(a, b);
-	printResult(sum);
-
-	difference = subtract(a, b);
-	printResult(difference);
-
-	product = multiply(a, b);
-	printResult(product);
-
-	quotient = divide(a, b);
-	printResult(quotient);
-
+	count = 0;
+	printf("Your account Number is %d", code);
+	while (count < 7)
+	{
+		printf("%d", acct_num[count] % 10);
+		count++;
+	}
+	printf("\n");
 	return (0);
 }
-
-/**
- * add - adds two integers
- * @a: integer
- * @b: integer
- * Return: sum of a and b
- */
-int add(int a, int b)
+int main(void)
 {
-	return (a + b);
-}
-
-/**
- * subtract - subtracts b from a
- * @a: integer
- * @b: integer
- * Return: difference
- */
-int subtract(int a, int b)
-{
-	return (a - b);
-}
-/**
- * multiply - multiplies two integers
- * @a: integer
- * @b: integer
- * Return: quotient
- */
-int multiply(int a, int b)
-{
-	return (a * b);
-}
-
-/**
- * divide - divides a by b
- * @a: integer
- * @b: integer
- * Return: quotient
- */
-int divide(int a, int b)
-{
-	return (a / b);
-}
-
-/**
- * printResult - prints result
- * @result: variable to be printed
- */
-void printResult(int result)
-{
-	printf("Result: %d\n", result);
+	acctgen();
+	return (0);
 }
