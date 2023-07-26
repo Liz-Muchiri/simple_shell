@@ -13,5 +13,5 @@
 int lineinterpreter(void);
 int token(void);
 int shell_exit(void);
-int hpath(void;
+int hpath(void);
 #endif
