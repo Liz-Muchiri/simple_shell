@@ -1,13 +1,15 @@
 #include "shell.h"
+#define MAX_ARGUMENTS 10
 /**
  * token - tokenising command arguments
  * Return: 0 always
  */
 int token(void)
 {
-	char command[MAX_COMMAND_LENGTH];
+	char *command = NULL;
+	size_t command_size = 0;
 	char *arguments[MAX_ARGUMENTS], *token;
-	char *delim = " \n";
+	char *delim = " ";
 	int argCount, status;
 	char prompt[] = "simple_shell> ";
 	pid_t pid;
@@ -16,7 +18,7 @@ int token(void)
 	{
 		printf("%s", prompt);
 
-		if (fgets(command, sizeof(command), stdin) == NULL)
+		if (getline(&command, &command_size, stdin) == -1)
 		{
 			printf("\n");
 			break;
