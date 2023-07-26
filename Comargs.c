@@ -29,7 +29,7 @@ int token(void)
 
 		argCount = 0;
 
-		while (token != NULL && argCount < MAX_ARGUMENTS - 1)
+		while (token != NULL)
 		{
 			arguments[argCount++] = token;
 			token = strtok(NULL, delim);
