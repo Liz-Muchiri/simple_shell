@@ -28,7 +28,7 @@ int token(void)
 
 		argCount = 0;
 
-		while (token != NULL && argCount < MAX_ARGUMENTS - 1)
+		while (token != NULL && argCount < command_size - 1)
 		{
 			arguments[argCount++] = token;
 			token = strtok(NULL, delim);
