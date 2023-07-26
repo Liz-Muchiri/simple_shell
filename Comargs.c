@@ -7,7 +7,7 @@ int token(void)
 {
 	char command[MAX_COMMAND_LENGTH];
 	char *arguments[MAX_ARGUMENTS], *token;
-	char *delim = " ";
+	char *delim = " \n";
 	int argCount, status;
 	char prompt[] = "simple_shell> ";
 	pid_t pid;
