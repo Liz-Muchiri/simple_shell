@@ -1,5 +1,5 @@
 #include "shell.h"
-#define MAX_ARGUMENTS 10
+#define MAX_ARGUMENTS 65536
 /**
  * token - tokenising command arguments
  * Return: 0 always
@@ -28,7 +28,7 @@ int token(void)
 
 		argCount = 0;
 
-		while (token != NULL && argCount < command_size - 1)
+		while (token != NULL && argCount < MAX_ARGUMENTS - 1)
 		{
 			arguments[argCount++] = token;
 			token = strtok(NULL, delim);

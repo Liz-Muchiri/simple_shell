@@ -9,7 +9,7 @@
 #include <string.h>
 #include <sys/wait.h>
 #define MAX_COMMAND_LENGTH 100
-#define MAX_ARGUMENTS 10
+#define MAX_ARGUMENTS 65536
 int lineinterpreter(void);
 int token(void);
 int shell_exit(void);
