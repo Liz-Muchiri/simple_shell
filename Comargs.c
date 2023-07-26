@@ -18,9 +18,10 @@ int token(void)
 	{
 		printf("%s", prompt);
 
-		if (getline(&command, &command_size, stdin) == 0)
+		if (getline(&command, &command_size, stdin) == -1a)
 		{
 			printf("\n");
+			free(command);
 			break;
 		}
 		command[strcspn(command, "\n")] = '\0';
