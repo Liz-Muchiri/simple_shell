@@ -21,7 +21,6 @@ int token(void)
 		if (getline(&command, &command_size, stdin) == -1)
 		{
 			printf("\n");
-			free(command);
 			break;
 		}
 		command[strcspn(command, "\n")] = '\0';
@@ -55,8 +54,14 @@ int token(void)
 		{
 			waitpid(pid, &status, 0);
 		}
-		free(command);
 	}
-
+	free(command);
 	return (0);
 }
+/**
+ * int main(void)
+ * {
+ * token();
+ * return (0);
+ * }
+ */
