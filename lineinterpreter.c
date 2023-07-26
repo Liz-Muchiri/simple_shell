@@ -3,7 +3,7 @@
  * lineinterpreter - interprets command line
  * Return: always 0
  */
-int line_interpreter(void)
+int main(void)
 {
 	char *command = NULL;
 	size_t command_size = 0;
