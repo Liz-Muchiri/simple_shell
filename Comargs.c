@@ -55,6 +55,7 @@ int token(void)
 		{
 			waitpid(pid, &status, 0);
 		}
+		free(command);
 	}
 
 	return (0);
