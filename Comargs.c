@@ -18,7 +18,7 @@ int token(void)
 	{
 		printf("%s", prompt);
 
-		if (getline(&command, &command_size, stdin) == -1)
+		if (getline(&command, &command_size, stdin) == 0)
 		{
 			printf("\n");
 			break;
