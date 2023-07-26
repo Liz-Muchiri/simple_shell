@@ -1,10 +1,10 @@
 #include "shell.h"
 #include <time.h>
 /**
- * acctgen - generates account numbers based on bank code
+ * main  - generates account numbers based on bank code
  * Return: 0 always
  */
-int acctgen(void)
+int main(void)
 {
 	char bank[100];
 	int code;

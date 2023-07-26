@@ -1,9 +1,9 @@
 #include "shell.h"
 /**
- * _path - handles path
+ * hpath - handles path
  * Return: 0 always
  */
-int _path(void)
+int hpath(void)
 {
 	char *pathToken, *command = NULL;
 	size_t command_size = 0;
