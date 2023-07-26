@@ -6,20 +6,22 @@
 #define MAX_COMMAND_LENGTH 100
 int main(void)
 {
-	char command[MAX_COMMAND_LENGTH];
+	char *command = NULL;
+	size_t command_size = 0;
 	char prompt[] = "simple_shell> ";
 	int status;
+	pid_t pid;
 
 	while (1)
 	{
 		printf("%s", prompt);
-		if (fgets(command, sizeof(command), stdin) == NULL)
+		if (getline(&command, &command_size, stdin) == -1)
 		{
 			printf("\n");
 			break;
 		}
 		command[strcspn(command, "\n")] = '\0';
-		pid_t pid = fork();
+		pid = fork();
 
 		if (pid < 0)
 		{

@@ -5,10 +5,12 @@
 
 int main(void)
 {
-	char *command = NULL;
+	char *path, *pathToken, *token, *command = NULL;
 	size_t command_size = 0;
+	char  commandPath[MAX_COMMAND_LENGTH], *arguments[MAX_ARGUMENTS];
 	char prompt[] = "simple_shell> ";
 	int status, argCount;
+	pid_t pid;
 
 	while (1)
 	{
@@ -21,8 +23,7 @@ int main(void)
 			break;
 		}
 		command[strcspn(command, "\n")] = '\0';
-		char *arguments[MAX_ARGUMENTS];
-		char *token = strtok(command, " ");
+		token = strtok(command, " ");
 
 		argCount = 0;
 
@@ -35,19 +36,18 @@ int main(void)
 		arguments[argCount] = NULL;
 		if (strcmp(arguments[0], "exit") == 0)
 			break;
-		char *path = getenv("PATH");
-		char *pathToken = strtok(path, ":");
+		path = getenv("PATH");
+		pathToken = strtok(path, ":");
 
 		while (pathToken != NULL)
 		{
-			char commandPath[MAX_COMMAND_LENGTH];
 
 			snprintf(commandPath, sizeof(commandPath),
 					"%s/%s", pathToken, arguments[0]);
 
 			if (access(commandPath, X_OK) == 0)
 			{
-				pid_t pid = fork();
+				pid = fork();
 
 				if (pid < 0)
 				{

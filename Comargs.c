@@ -9,7 +9,8 @@
 int main(void)
 {
 	char command[MAX_COMMAND_LENGTH];
-	char *arguments[MAX_ARGUMENTS];
+	char *arguments[MAX_ARGUMENTS], *token;
+	char *delim = " ";
 	int argCount, status;
 	char prompt[] = "simple_shell> ";
 	pid_t pid;
@@ -24,8 +25,7 @@ int main(void)
 			break;
 		}
 		command[strcspn(command, "\n")] = '\0';
-		char delim[] = " \n";
-		char *token = strtok(command, delim);
+		token = strtok(command, delim);
 
 		argCount = 0;
 

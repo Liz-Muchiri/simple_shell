@@ -7,9 +7,13 @@
  */
 int main(void)
 {
-	char *command = NULL;
+	char *pathToken, *command = NULL;
 	size_t command_size = 0;
+	char *token, *path, *delim = " ";
 	char prompt[] = "simple_shell> ";
+	int status, argCount;
+	char *arguments[MAX_ARGUMENTS];
+	pid_t pid;
 
 	while (1)
 	{
@@ -23,10 +27,8 @@ int main(void)
 		}
 
 		command[strcspn(command, "\n")] = '\0';
-		char *arguments[MAX_ARGUMENTS];
-		char delim[] = " \n";
-		char *token = strtok(command, delim);
-		int argCount = 0;
+		token = strtok(command, delim);
+		argCount = 0;
 
 		while (token != NULL && argCount < MAX_ARGUMENTS - 1)
 		{
@@ -35,8 +37,8 @@ int main(void)
 		}
 
 		arguments[argCount] = NULL;
-		char *path = getenv("PATH");
-		char *pathToken = strtok(path, ":");
+		path = getenv("PATH");
+		pathToken = strtok(path, ":");
 
 		while (pathToken != NULL)
 		{
@@ -47,7 +49,7 @@ int main(void)
 
 			if (access(commandPath, X_OK) == 0)
 			{
-				pid_t pid = fork();
+				pid = fork();
 
 				if (pid < 0)
 				{
@@ -64,7 +66,6 @@ int main(void)
 				}
 				else
 				{
-					int status;
 
 					waitpid(pid, &status, 0);
 				}
