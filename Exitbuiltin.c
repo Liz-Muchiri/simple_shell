@@ -1,9 +1,9 @@
 #include "shell.h"
-
-#define MAX_COMMAND_LENGTH 100
-#define MAX_ARGUMENTS 10
-
-int main(void)
+/**
+ * shell_exit - implements the builtin exit function
+ * Return: 0 always
+ */
+int shell_exit(void)
 {
 	char *path, *pathToken, *token, *command = NULL;
 	size_t command_size = 0;

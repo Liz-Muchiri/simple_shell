@@ -1,11 +1,9 @@
 #include "shell.h"
-#define MAX_ARGUMENTS 10
-#define MAX_COMMAND_LENGTH 100
 /**
- * main - handles path
+ * _path - handles path
  * Return: 0 always
  */
-int main(void)
+int _path(void)
 {
 	char *pathToken, *command = NULL;
 	size_t command_size = 0;

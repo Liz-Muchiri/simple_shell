@@ -1,10 +1,9 @@
 #include "shell.h"
 /**
- * main - interprets command line
+ * lineinterpreter - interprets command line
  * Return: always 0
  */
-#define MAX_COMMAND_LENGTH 100
-int main(void)
+int line_interpreter(void)
 {
 	char *command = NULL;
 	size_t command_size = 0;

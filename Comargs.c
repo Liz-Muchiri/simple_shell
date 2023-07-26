@@ -1,12 +1,9 @@
 #include "shell.h"
-
-#define MAX_COMMAND_LENGTH 100
-#define MAX_ARGUMENTS 10
 /**
- * main - tokenising command arguments
+ * token - tokenising command arguments
  * Return: 0 always
  */
-int main(void)
+int token(void)
 {
 	char command[MAX_COMMAND_LENGTH];
 	char *arguments[MAX_ARGUMENTS], *token;

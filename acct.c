@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "shell.h"
 #include <time.h>
 /**
  * acctgen - generates account numbers based on bank code
@@ -28,10 +26,5 @@ int acctgen(void)
 		count++;
 	}
 	printf("\n");
-	return (0);
-}
-int main(void)
-{
-	acctgen();
 	return (0);
 }
