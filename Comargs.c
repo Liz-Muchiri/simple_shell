@@ -42,26 +42,5 @@ int token(void)
 			perror("fork");
 			exit(EXIT_FAILURE);
 		}
-		else if (pid == 0)
-		{
-			if (execvp(arguments[0], arguments) == -1)
-			{
-				perror("execvp");
-				exit(EXIT_FAILURE);
-			}
-		}
-		else
-		{
-			waitpid(pid, &status, 0);
-		}
-	}
-	free(command);
 	return (0);
 }
-/**
- * int main(void)
- * {
- * token();
- * return (0);
- * }
- */
