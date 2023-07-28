@@ -33,6 +33,7 @@ int lineinterpreter(void)
 			{
 				perror("execlp");
 				exit(EXIT_FAILURE);
+				return (-1);
 			}
 		}
 		else
