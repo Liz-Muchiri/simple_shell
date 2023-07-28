@@ -41,7 +41,7 @@ int token(void)
 			_perror("fork");
 		if (pid == 0)
 		{
-			if (execve(arguments[0], arguments, NULL) == -1)
+			if (execvp(arguments[0], arguments, NULL) == -1)
 				_perror("execve");
 		}
 		else
