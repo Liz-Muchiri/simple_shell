@@ -4,13 +4,18 @@
  * token - tokenising command arguments
  * Return: 0 always
  */
+void _perror(char *str)
+{
+	perror(str);
+	exit(EXIT_FAILURE);
+}
 int token(void)
 {
 	char *command = NULL;
 	size_t command_size = 0;
 	char *arguments[MAX_ARGUMENTS], *token;
 	char *delim = " ";
-	int argCount, status;
+	int argCount = 0, status;
 	char prompt[] = "simple_shell> ";
 	pid_t pid;
 
@@ -25,34 +30,22 @@ int token(void)
 		}
 		command[strcspn(command, "\n")] = '\0';
 		token = strtok(command, delim);
-
-		argCount = 0;
-
 		while (token != NULL)
 		{
 			arguments[argCount++] = token;
 			token = strtok(NULL, delim);
 		}
-
 		arguments[argCount] = NULL;
-
 		pid = fork();
 		if (pid < 0)
-		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
+			_perror("fork");
 		if (pid == 0)
 		{
 			if (execve(arguments[0], arguments, NULL) == -1)
-			{
-				perror("execve");
-				exit(EXIT_FAILURE);
-			}
+				_perror("execve");
 		}
 		else
-	
-			waitpid(pid, &status , 0);
-		}
+			waitpid(pid, &status, 0);
+	}
 	return (0);
 }

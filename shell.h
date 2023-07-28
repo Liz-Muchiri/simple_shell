@@ -14,4 +14,5 @@ int lineinterpreter(void);
 int token(void);
 int shell_exit(void);
 int hpath(void);
+void _perror(char *str);
 #endif
