@@ -1,7 +1,7 @@
 #include "shell.h"
 #include <time.h>
 /**
- * main  - generates account numbers based on bank code
+ * main - generates account numbers based on bank code
  * Return: 0 always
  */
 int main(void)
