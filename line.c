@@ -5,7 +5,7 @@
  */
 int lineinterpreter(void)
 {
-	char command[2];
+	char *command;
 	char prompt[] = "simple_shell> ";
 	int status;
 	pid_t pid;
@@ -28,9 +28,10 @@ int lineinterpreter(void)
 		}
 		else if (pid == 0)
 		{
+			execlp(command, command, NULL);
 			if (execlp(command, command, NULL) == -1)
 			{
-				perror("execve");
+				perror("execlp");
 				exit(EXIT_FAILURE);
 			}
 		}
