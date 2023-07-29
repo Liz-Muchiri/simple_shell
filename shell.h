@@ -16,3 +16,6 @@ int shell_exit(void);
 int hpath(void);
 void _perror(char *str);
 #endif
+#define MAX_ARGUMENTS 100
+#define MAX_COMMAND_LENGTH 1000
+int hpath(void);
