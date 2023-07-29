@@ -9,8 +9,8 @@
 #include <string.h>
 #include <sys/wait.h>
 
-#define MAX_COMMAND_LENGTH 1000
-#define MAX_ARGUMENTS 100
+#define MAX_COMMAND_LENGTH 1024
+#define MAX_ARGUMENTS 1000
 
 int lineinterpreter(void);
 int token(void);
