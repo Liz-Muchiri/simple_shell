@@ -5,8 +5,7 @@
  */
 int lineinterpreter(void)
 {
-	char *command = NULL;
-	size_t command_size = 0;
+	char command[2];
 	char prompt[] = "simple_shell> ";
 	int status;
 	pid_t pid;
@@ -14,7 +13,7 @@ int lineinterpreter(void)
 	while (1)
 	{
 		printf("%s", prompt);
-		if (getline(&command, &command_size, stdin) == -1)
+		if (fgets(command, sizeof(command), stdin) == NULL)
 		{
 			printf("\n");
 			break;
@@ -29,9 +28,9 @@ int lineinterpreter(void)
 		}
 		else if (pid == 0)
 		{
-			if (execlp(command, command, NULL) == -1)
+			if (execve(command, command, NULL) == -1)
 			{
-				perror("execlp");
+				perror("execve");
 				exit(EXIT_FAILURE);
 			}
 		}

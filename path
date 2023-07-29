@@ -1,4 +1,6 @@
 #include "shell.h"
+#define MAX_ARGUMENTS 100
+#define MAX_COMMAND_LENGTH 1000
 /**
  * hpath - handles path
  * Return: 0 always
@@ -9,8 +11,9 @@ int hpath(void)
 	size_t command_size = 0;
 	char *token, *path, *delim = " ";
 	char prompt[] = "simple_shell> ";
-	int status, argCount;
+	int status, argCount = 0;
 	char *arguments[MAX_ARGUMENTS];
+	char commandPath[MAX_COMMAND_LENGTH];
 	pid_t pid;
 
 	while (1)
@@ -20,13 +23,11 @@ int hpath(void)
 		if (getline(&command, &command_size, stdin) == -1)
 		{
 			printf("\n");
-			free(command);
 			break;
 		}
 
 		command[strcspn(command, "\n")] = '\0';
 		token = strtok(command, delim);
-		argCount = 0;
 
 		while (token != NULL && argCount < MAX_ARGUMENTS - 1)
 		{
@@ -40,8 +41,6 @@ int hpath(void)
 
 		while (pathToken != NULL)
 		{
-			char commandPath[MAX_COMMAND_LENGTH];
-
 			snprintf(commandPath, sizeof(commandPath), "%s/%s",
 					pathToken, arguments[0]);
 
@@ -56,9 +55,10 @@ int hpath(void)
 				}
 				else if (pid == 0)
 				{
-					if (execv(commandPath, arguments) == -1)
+					execve(commandPath, arguments, NULL);
+					if (execve(commandPath, arguments, NULL) == -1)
 					{
-						perror("execv");
+						perror("execve");
 						exit(EXIT_FAILURE);
 					}
 				}
@@ -74,5 +74,6 @@ int hpath(void)
 			pathToken = strtok(NULL, ":");
 		}
 	}
+	free(command);
 	return (0);
 }
