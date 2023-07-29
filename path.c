@@ -1,6 +1,6 @@
 #include "shell.h"
-#define MAX_ARGUMENTS 100
-#define MAX_COMMAND_LENGTH 1000
+#define MAX_ARGUMENTS 1000
+#define MAX_COMMAND_LENGTH 1024
 /**
  * hpath - handles path
  * Return: 0 always
@@ -56,11 +56,8 @@ int hpath(void)
 				else if (pid == 0)
 				{
 					execve(commandPath, arguments, NULL);
-					if (execve(commandPath, arguments, NULL) == -1)
-					{
-						perror("execve");
-						exit(EXIT_FAILURE);
-					}
+					perror("shell");
+					exit(EXIT_FAILURE);
 				}
 				else
 				{
