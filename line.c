@@ -28,7 +28,7 @@ int lineinterpreter(void)
 		}
 		else if (pid == 0)
 		{
-			if (execve(command, command, NULL) == -1)
+			if (execlp(command, command, NULL) == -1)
 			{
 				perror("execve");
 				exit(EXIT_FAILURE);
