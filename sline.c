@@ -32,11 +32,8 @@ int lineinterpreter(void)
 			args[0] = command;
 			args[1] = NULL;
 			execve(command, args, NULL);
-			if (execve(command, args, NULL) == -1)
-			{
-				perror("./shell");
-				exit(EXIT_FAILURE);
-			}
+			perror("./shell");
+			exit(EXIT_FAILURE);
 		}
 		else
 		{
