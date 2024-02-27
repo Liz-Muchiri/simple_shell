@@ -1,0 +1,51 @@
+#include "shell.h"
+#define MAX_ARGUMENTS 65536
+/**
+ * token - tokenising command arguments
+ * Return: 0 always
+ */
+void _perror(char *str)
+{
+	perror(str);
+	exit(EXIT_FAILURE);
+}
+int token(void)
+{
+	char *command = NULL;
+	size_t command_size = 0;
+	char *arguments[MAX_ARGUMENTS], *token;
+	char *delim = " ";
+	int argCount = 0, status;
+	char prompt[] = "simple_shell> ";
+	pid_t pid;
+
+	while (1)
+	{
+		printf("%s", prompt);
+
+		if (getline(&command, &command_size, stdin) == -1)
+		{
+			printf("\n");
+			break;
+		}
+		command[strcspn(command, "\n")] = '\0';
+		token = strtok(command, delim);
+		while (token != NULL)
+		{
+			arguments[argCount++] = token;
+			token = strtok(NULL, delim);
+		}
+		arguments[argCount] = NULL;
+		pid = fork();
+		if (pid < 0)
+			_perror("fork");
+		if (pid == 0)
+		{
+			if (execvp(arguments[0], arguments, NULL) == -1)
+				_perror("execve");
+		}
+		else
+			waitpid(pid, &status, 0);
+	}
+	return (0);
+}
